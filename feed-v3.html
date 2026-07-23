@@ -3003,11 +3003,11 @@ function renderXStudioBuilder(){
       </div>
       <div class="builder-steps">${stepsNav}</div>
       <div class="builder-form-body" id="builder-form-body">${formBody}</div>
-      <div class="builder-form-footer">
-        ${S.builderStep !== 'personal' ? `<button class="btn btn-ghost btn-sm" onclick="builderPrevStep()">← Back</button>` : ''}
+      <div class="builder-form-footer" style="justify-content:space-between">
+        ${S.builderStep !== 'personal' ? `<button class="btn btn-ghost btn-sm" onclick="builderPrevStep()">← Back</button>` : '<div></div>'}
         ${S.builderStep !== 'skills'
-          ? `<button class="btn btn-primary btn-sm" style="flex:1" onclick="builderNextStep()">Next →</button>`
-          : `<button class="btn btn-primary btn-sm" style="flex:1" onclick="builderFinish()">✅ Open in Editor</button>`}
+          ? `<button class="btn btn-primary btn-sm" onclick="builderNextStep()">Next →</button>`
+          : `<button class="btn btn-primary btn-sm" onclick="builderFinish()">✅ Open in Editor</button>`}
       </div>
     </div>
     <div class="builder-right">
