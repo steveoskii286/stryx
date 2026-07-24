@@ -36,21 +36,24 @@ html[data-theme="dark"]{
 html,body{height:100%;font-family:'Inter',sans-serif;color:var(--text);background:var(--bg)}
 input,textarea,select,[contenteditable="true"]{user-select:text;-webkit-user-select:text;cursor:text}
 
-/* ── LOGIN — THE PULSE ── */
-#login-screen{display:flex;height:100vh;width:100vw;position:fixed;inset:0;z-index:1000;background:#050508;align-items:center;justify-content:center}
-.pulse-wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.pulse-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,53,.14) 0%,rgba(255,107,53,.05) 40%,transparent 70%);animation:pulseBreath 5s ease-in-out infinite;pointer-events:none}
-.pulse-glow.p2{width:900px;height:900px;background:radial-gradient(circle,rgba(255,107,53,.06) 0%,transparent 60%);animation:pulseBreath 7s ease-in-out infinite 1s}
-@keyframes pulseBreath{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.85}50%{transform:translate(-50%,-50%) scale(1.12);opacity:1}}
-.pulse-content{position:relative;z-index:2;text-align:center;animation:pulseFadeUp .9s ease both}
-@keyframes pulseFadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.pulse-brand{font-size:44px;font-weight:900;letter-spacing:-2.2px;color:#FF6B35;margin-bottom:34px;text-shadow:0 0 40px rgba(255,107,53,.35)}
-.pulse-greeting{font-size:22px;font-weight:600;color:rgba(255,255,255,.92);letter-spacing:-.4px;margin-bottom:30px}
-.pulse-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 38px;background:rgba(255,255,255,.04);border:1px solid rgba(255,107,53,.4);border-radius:100px;color:#fff;font-size:15px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;letter-spacing:-.2px;transition:all .25s;backdrop-filter:blur(6px)}
-.pulse-btn:hover{background:rgba(255,107,53,.14);border-color:#FF6B35;box-shadow:0 0 32px rgba(255,107,53,.25);transform:translateY(-1px)}
-.pulse-btn span{transition:transform .2s}
-.pulse-btn:hover span{transform:translateX(3px)}
-.pulse-foot{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.22);z-index:2}
+/* ── LOGIN — THE TERMINAL ── */
+#login-screen{display:flex;height:100vh;width:100vw;position:fixed;inset:0;z-index:1000;background:#050508}
+.term-wrap{position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:
+  radial-gradient(ellipse at 50% 40%,rgba(255,107,53,.05) 0%,transparent 55%),#050508}
+.term-wrap::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0px,transparent 2px,rgba(255,255,255,.012) 3px,transparent 4px);pointer-events:none}
+.term-brand{position:absolute;top:34px;left:44px;font-size:22px;font-weight:900;letter-spacing:-1.2px;color:#FF6B35;display:flex;align-items:center;gap:9px}
+.term-beta{font-size:9px;font-weight:700;letter-spacing:1.5px;color:rgba(255,107,53,.75);border:1px solid rgba(255,107,53,.3);border-radius:20px;padding:2px 8px}
+.term-center{text-align:center}
+.term-line{font-family:'SF Mono','Cascadia Code',Consolas,monospace;font-size:24px;font-weight:500;color:rgba(255,255,255,.92);letter-spacing:-.3px;min-height:36px;margin-bottom:38px}
+.term-prompt{color:#FF6B35;font-weight:700}
+.term-cursor{display:inline-block;width:11px;height:24px;background:#FF6B35;margin-left:5px;vertical-align:middle;animation:termBlink 1s steps(1) infinite;box-shadow:0 0 12px rgba(255,107,53,.6)}
+@keyframes termBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.term-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 36px;background:transparent;border:1px solid rgba(255,107,53,.45);border-radius:6px;color:#fff;font-size:14px;font-weight:600;font-family:'SF Mono','Cascadia Code',Consolas,monospace;cursor:pointer;letter-spacing:.5px;transition:all .22s;opacity:0;transform:translateY(8px)}
+.term-btn.show{opacity:1;transform:translateY(0)}
+.term-btn:hover{background:rgba(255,107,53,.12);border-color:#FF6B35;box-shadow:0 0 28px rgba(255,107,53,.22)}
+.term-btn span{transition:transform .2s}
+.term-btn:hover span{transform:translateX(3px)}
+.term-foot{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-family:'SF Mono',Consolas,monospace;font-size:11px;color:rgba(255,255,255,.18);letter-spacing:.5px}
 
 .login-left{flex:1.1;background:#08080F;position:relative;overflow:hidden;padding:52px 56px;display:flex;flex-direction:column;justify-content:space-between}
 .login-left::before{content:'';position:absolute;top:-120px;left:-80px;width:520px;height:520px;background:radial-gradient(circle,rgba(255,107,53,.22) 0%,transparent 70%);border-radius:50%;animation:pulse 6s ease-in-out infinite}
@@ -1289,17 +1292,15 @@ html[data-theme="dark"] .xl-job-card.selected{background:rgba(255,107,53,.12)}
 </head>
 <body>
 
-<!-- ═══════════════════════════════ LOGIN — THE PULSE ═══════════════════════════════ -->
+<!-- ═══════════════════════════════ LOGIN — THE TERMINAL ═══════════════════════════════ -->
 <div id="login-screen">
-  <div class="pulse-wrap">
-    <div class="pulse-glow"></div>
-    <div class="pulse-glow p2"></div>
-    <div class="pulse-content">
-      <div class="pulse-brand">stryx</div>
-      <div class="pulse-greeting" id="pulse-greeting">Welcome back, Stephen.</div>
-      <button class="pulse-btn" onclick="quickAccess()">Enter <span>→</span></button>
+  <div class="term-wrap">
+    <div class="term-brand">stryx<span class="term-beta">BETA</span></div>
+    <div class="term-center">
+      <div class="term-line" id="term-line"><span class="term-prompt">&gt;</span> <span id="term-text"></span><span class="term-cursor"></span></div>
+      <button class="term-btn" id="term-btn" onclick="quickAccess()">Enter <span>→</span></button>
     </div>
-    <div class="pulse-foot">BETA · Built to beat the bots</div>
+    <div class="term-foot">// built to beat the bots</div>
   </div>
 </div>
 
@@ -1608,15 +1609,27 @@ function quickAccess() {
   launchApp();
 }
 
-// Personalize pulse greeting on load
+// Terminal typing animation on load
 document.addEventListener('DOMContentLoaded', () => {
-  const g = document.getElementById('pulse-greeting');
-  if(!g) return;
+  const txt = document.getElementById('term-text');
+  const btn = document.getElementById('term-btn');
+  if(!txt) return;
   const stored = localStorage.getItem('stryx_pulse_user');
-  const name = stored ? (JSON.parse(stored).name||'Stephen') : 'Stephen';
+  const name = (stored ? (JSON.parse(stored).name||'stephen') : 'stephen').toLowerCase();
   const h = new Date().getHours();
-  const tod = h<5?'Working late':h<12?'Good morning':h<18?'Good afternoon':'Good evening';
-  g.textContent = `${tod}, ${name}.`;
+  const tod = h<5?'working late':h<12?'good morning':h<18?'good afternoon':'good evening';
+  const msg = `${tod}, ${name}_`;
+  let i = 0;
+  const type = () => {
+    if(i <= msg.length){
+      txt.textContent = msg.slice(0, i);
+      i++;
+      setTimeout(type, 55 + Math.random()*70);
+    } else {
+      setTimeout(()=>btn.classList.add('show'), 300);
+    }
+  };
+  setTimeout(type, 600);
 });
 
 function _lfToggleMode(forceSignIn) {
