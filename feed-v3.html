@@ -1852,8 +1852,25 @@ async function handleSocialLogin(provider) {
 function _onAuthSuccess(user) {
   const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Member';
   S.user = { email: user.email, name, id: user.id };
+  localStorage.setItem('stryx_last_user', JSON.stringify({ name, email: user.email }));
   launchApp();
 }
+
+// Show a personalized greeting on the login screen immediately (before Supabase confirms session)
+function _paintLastUserGreeting(){
+  const cached = localStorage.getItem('stryx_last_user');
+  if(!cached) return;
+  try{
+    const { name } = JSON.parse(cached);
+    const firstName = capitalize((name||'').split(/[@._\s]/)[0]);
+    if(!firstName) return;
+    const title = document.getElementById('lf-title');
+    const sub = document.getElementById('lf-sub');
+    if(title) title.textContent = `Welcome back, ${firstName}.`;
+    if(sub) sub.textContent = 'Great to see you again.';
+  }catch(e){}
+}
+document.addEventListener('DOMContentLoaded', _paintLastUserGreeting);
 
 function launchApp() {
   document.body.classList.add('app-mode');
