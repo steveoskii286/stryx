@@ -44,7 +44,7 @@ input,textarea,select,[contenteditable="true"]{user-select:text;-webkit-user-sel
 .term-titlebar{display:flex;align-items:center;gap:7px;padding:11px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.06)}
 .term-dot{width:11px;height:11px;border-radius:50%}
 .term-dot.red{background:#ff5f57}.term-dot.yellow{background:#febc2e}.term-dot.green{background:#28c840}
-.term-title{flex:1;text-align:center;font-family:'SF Mono',Consolas,monospace;font-size:11px;color:rgba(255,255,255,.35);margin-right:40px}
+.term-title{flex:1;text-align:center;font-family:'SF Mono',Consolas,monospace;font-size:11px;color:rgba(255,255,255,.35)}
 .term-body{padding:18px 20px 22px;font-family:'SF Mono','Cascadia Code',Consolas,monospace;font-size:13.5px;line-height:1.85;color:rgba(255,255,255,.85);min-height:220px;position:relative}
 .term-body .tb-line{white-space:pre-wrap}
 .term-body .tb-dim{color:rgba(255,255,255,.35)}
@@ -1301,7 +1301,6 @@ html[data-theme="dark"] .xl-job-card.selected{background:rgba(255,107,53,.12)}
   <div class="term-wrap" onclick="document.getElementById('term-input')?.focus()">
     <div class="term-window">
       <div class="term-titlebar">
-        <span class="term-dot red"></span><span class="term-dot yellow"></span><span class="term-dot green"></span>
         <span class="term-title">stryx — secure shell</span>
       </div>
       <div class="term-body" id="term-body">
