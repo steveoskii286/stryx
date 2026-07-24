@@ -36,8 +36,21 @@ html[data-theme="dark"]{
 html,body{height:100%;font-family:'Inter',sans-serif;color:var(--text);background:var(--bg)}
 input,textarea,select,[contenteditable="true"]{user-select:text;-webkit-user-select:text;cursor:text}
 
-/* ── LOGIN ── */
-#login-screen{display:flex;height:100vh;width:100vw;position:fixed;inset:0;z-index:1000;background:#08080F}
+/* ── LOGIN — THE PULSE ── */
+#login-screen{display:flex;height:100vh;width:100vw;position:fixed;inset:0;z-index:1000;background:#050508;align-items:center;justify-content:center}
+.pulse-wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pulse-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,53,.14) 0%,rgba(255,107,53,.05) 40%,transparent 70%);animation:pulseBreath 5s ease-in-out infinite;pointer-events:none}
+.pulse-glow.p2{width:900px;height:900px;background:radial-gradient(circle,rgba(255,107,53,.06) 0%,transparent 60%);animation:pulseBreath 7s ease-in-out infinite 1s}
+@keyframes pulseBreath{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.85}50%{transform:translate(-50%,-50%) scale(1.12);opacity:1}}
+.pulse-content{position:relative;z-index:2;text-align:center;animation:pulseFadeUp .9s ease both}
+@keyframes pulseFadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.pulse-brand{font-size:44px;font-weight:900;letter-spacing:-2.2px;color:#FF6B35;margin-bottom:34px;text-shadow:0 0 40px rgba(255,107,53,.35)}
+.pulse-greeting{font-size:22px;font-weight:600;color:rgba(255,255,255,.92);letter-spacing:-.4px;margin-bottom:30px}
+.pulse-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 38px;background:rgba(255,255,255,.04);border:1px solid rgba(255,107,53,.4);border-radius:100px;color:#fff;font-size:15px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;letter-spacing:-.2px;transition:all .25s;backdrop-filter:blur(6px)}
+.pulse-btn:hover{background:rgba(255,107,53,.14);border-color:#FF6B35;box-shadow:0 0 32px rgba(255,107,53,.25);transform:translateY(-1px)}
+.pulse-btn span{transition:transform .2s}
+.pulse-btn:hover span{transform:translateX(3px)}
+.pulse-foot{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.22);z-index:2}
 
 .login-left{flex:1.1;background:#08080F;position:relative;overflow:hidden;padding:52px 56px;display:flex;flex-direction:column;justify-content:space-between}
 .login-left::before{content:'';position:absolute;top:-120px;left:-80px;width:520px;height:520px;background:radial-gradient(circle,rgba(255,107,53,.22) 0%,transparent 70%);border-radius:50%;animation:pulse 6s ease-in-out infinite}
@@ -1276,41 +1289,17 @@ html[data-theme="dark"] .xl-job-card.selected{background:rgba(255,107,53,.12)}
 </head>
 <body>
 
-<!-- ═══════════════════════════════ LOGIN ═══════════════════════════════ -->
+<!-- ═══════════════════════════════ LOGIN — THE PULSE ═══════════════════════════════ -->
 <div id="login-screen">
-  <div class="login-left">
-    <div class="orb-mid"></div>
-    <div class="ll-logo">
-      <div class="brand"><span>stryx</span></div>
-      <div class="beta">BETA</div>
+  <div class="pulse-wrap">
+    <div class="pulse-glow"></div>
+    <div class="pulse-glow p2"></div>
+    <div class="pulse-content">
+      <div class="pulse-brand">stryx</div>
+      <div class="pulse-greeting" id="pulse-greeting">Welcome back, Stephen.</div>
+      <button class="pulse-btn" onclick="quickAccess()">Enter <span>→</span></button>
     </div>
-    <div class="ll-center">
-      <div class="ll-headline">Stop Applying<br>Blind. Start<br><em>Winning.</em></div>
-    </div>
-    <div class="ll-bottom">
-      <div class="ll-stats">
-        <div class="ll-stat"><div class="sv">2,400+</div><div class="sl">Resumes optimised</div></div>
-        <div class="ll-stat"><div class="sv">73%</div><div class="sl">Interview rate</div></div>
-        <div class="ll-stat"><div class="sv">3.2×</div><div class="sl">Faster placement</div></div>
-      </div>
-      <div class="ll-marquee-label">Hired at companies like</div>
-      <div class="ll-marquee-wrap">
-        <div class="ll-marquee-track" id="ll-marquee">
-          <!-- JS will populate this -->
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="login-right">
-    <div class="login-form-wrap" style="text-align:center">
-      <div class="lf-title" style="margin-bottom:8px">Welcome to Stryx.</div>
-      <div class="lf-sub" style="margin-bottom:36px">Your AI-powered job search command center.</div>
-      <button class="lf-btn" onclick="quickAccess()" style="font-size:16px;padding:16px;letter-spacing:-.3px">
-        Enter App →
-      </button>
-      <div style="margin-top:20px;font-size:12px;color:#c0bdc8">Beta access · No sign-in required</div>
-    </div>
+    <div class="pulse-foot">BETA · Built to beat the bots</div>
   </div>
 </div>
 
@@ -1612,9 +1601,23 @@ function xlPersist(){ persist(); }
 })();
 
 function quickAccess() {
-  S.user = { email: 'guest@getstryx.ai', name: 'Guest', id: 'guest' };
+  const stored = localStorage.getItem('stryx_pulse_user');
+  const u = stored ? JSON.parse(stored) : { email: 'stephen@getstryx.ai', name: 'Stephen', id: 'local' };
+  localStorage.setItem('stryx_pulse_user', JSON.stringify(u));
+  S.user = u;
   launchApp();
 }
+
+// Personalize pulse greeting on load
+document.addEventListener('DOMContentLoaded', () => {
+  const g = document.getElementById('pulse-greeting');
+  if(!g) return;
+  const stored = localStorage.getItem('stryx_pulse_user');
+  const name = stored ? (JSON.parse(stored).name||'Stephen') : 'Stephen';
+  const h = new Date().getHours();
+  const tod = h<5?'Working late':h<12?'Good morning':h<18?'Good afternoon':'Good evening';
+  g.textContent = `${tod}, ${name}.`;
+});
 
 function _lfToggleMode(forceSignIn) {
   _lfSignUpMode = forceSignIn === false ? false : !_lfSignUpMode;
