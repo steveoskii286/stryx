@@ -1869,7 +1869,7 @@ async function logout() {
   try { await _sb.auth.signOut(); } catch(e){}
   document.body.classList.remove('app-mode');
   S.user = null;
-  termBoot();
+  _lfToggleMode(false);
 }
 
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
