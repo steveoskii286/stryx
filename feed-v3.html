@@ -1845,8 +1845,11 @@ async function handleSignup() {
 
 async function handleSocialLogin(provider) {
   const prov = provider === 'Google' ? 'google' : 'linkedin_oidc';
-  const { error } = await _sb.auth.signInWithOAuth({ provider: prov, options:{ redirectTo: window.location.href } });
-  if (error) { const err=document.getElementById('lf-error'); err.style.display='block'; err.textContent=error.message; }
+  // Hardcode the canonical redirect target so it always matches Supabase's allow-list,
+  // regardless of whether the user is on "/" or "/feed-v3.html" when they click.
+  const redirectTarget = window.location.origin + '/feed-v3.html';
+  const { error } = await _sb.auth.signInWithOAuth({ provider: prov, options:{ redirectTo: redirectTarget } });
+  if (error) { const err=document.getElementById('lf-error'); err.style.display='block'; err.textContent=error.message; console.error('OAuth error:', error); }
 }
 
 function _onAuthSuccess(user) {
