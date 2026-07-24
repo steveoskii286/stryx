@@ -1328,9 +1328,24 @@ html[data-theme="dark"] .xl-job-card.selected{background:rgba(255,107,53,.12)}
 
   /* XStudio welcome: stack columns */
   .xs-welcome{flex-direction:column;height:auto;min-height:calc(100vh - 58px);overflow-y:auto}
-  .xs-welcome-left{padding:28px 22px 10px}
+  .xs-welcome-left{padding:28px 22px 10px;justify-content:flex-start}
   .xs-welcome-right{width:100%;padding:10px 22px 90px}
-  .xs-title{font-size:28px!important}
+  .xs-title{font-size:26px!important;letter-spacing:-.8px!important;line-height:1.15!important}
+  .xs-title br{display:none} /* let text wrap naturally on small screens */
+  .xs-sub{font-size:13px;max-width:none;margin-bottom:18px}
+  .xs-bullets li{font-size:12px}
+  .xs-badge{margin-bottom:14px}
+
+  /* Cover Letter welcome: stack the grid */
+  .cl-welcome{grid-template-columns:1fr;min-height:auto}
+  .cl-welcome-left{padding:28px 22px 14px;border-right:none;border-bottom:1px solid var(--border)}
+  .cl-welcome-right{padding:22px 22px 90px}
+
+  /* Dashboard welcome (Pulse-style hero) */
+  .dash-welcome-title{font-size:26px!important;letter-spacing:-.8px!important}
+  .dash-welcome-title br{display:none}
+  .dash-welcome-sub{font-size:13px}
+  .dash-path-grid{grid-template-columns:1fr}
 
   /* Builder: stack form over preview */
   .builder-wrap{flex-direction:column;height:auto;overflow:visible}
