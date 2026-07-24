@@ -1897,9 +1897,13 @@ function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
 // Auto-login via Supabase session
 window.addEventListener('DOMContentLoaded', async () => {
-  const { data: { session } } = await _sb.auth.getSession();
+  console.log('[stryx-auth] checking for session... url:', window.location.href);
+  const { data: { session }, error: sessErr } = await _sb.auth.getSession();
+  if (sessErr) console.error('[stryx-auth] getSession error:', sessErr);
+  console.log('[stryx-auth] initial session:', session);
   if (session?.user) { _onAuthSuccess(session.user); return; }
-  _sb.auth.onAuthStateChange((_event, session) => {
+  _sb.auth.onAuthStateChange((event, session) => {
+    console.log('[stryx-auth] state change:', event, session);
     if (session?.user && !document.body.classList.contains('app-mode')) {
       _onAuthSuccess(session.user);
     }
