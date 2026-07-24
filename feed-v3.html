@@ -8689,8 +8689,13 @@ function xlToggleDesc(){
 
 function xlSaveToTracker(i){
   const job = S.xlaunchJobs[i]; if(!job) return;
-  if(!S.apps.find(a=>a.role===job.title&&a.company===job.company)){
-    S.apps.push({role:job.title,company:job.company,status:'Saved',ts:Date.now(),url:job.url||''});
+  // Match on unique posting identity: URL first (most reliable), else role+company+location
+  const dup = S.apps.find(a => {
+    if(job.url && a.url) return a.url === job.url;
+    return a.role===job.title && a.company===job.company && (a.location||'')===(job.location||'');
+  });
+  if(!dup){
+    S.apps.push({role:job.title,company:job.company,location:job.location||'',status:'Saved',ts:Date.now(),url:job.url||''});
     persist(); showToast('✅ Saved to Tracker!');
   } else { showToast('Already in your tracker.'); }
 }
