@@ -1887,6 +1887,7 @@ async function logout() {
   document.body.classList.remove('app-mode');
   S.user = null;
   _lfToggleMode(false);
+  _paintLastUserGreeting();
 }
 
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
