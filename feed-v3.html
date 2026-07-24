@@ -1290,6 +1290,66 @@ html[data-theme="dark"] .xl-job-card.selected{background:rgba(255,107,53,.12)}
 .ai-working-dot:nth-child(3){animation-delay:.3s}
 @keyframes wd{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}
 .ai-working-text{font-size:11px;color:rgba(255,107,53,.8);font-weight:600}
+
+/* ── Terminal auth buttons ── */
+.term-auth-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.term-gbtn{display:inline-flex;align-items:center;gap:9px;padding:10px 20px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);border-radius:7px;color:#fff;font-size:13px;font-weight:600;font-family:'SF Mono',Consolas,monospace;cursor:pointer;transition:all .2s}
+.term-gbtn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.35)}
+.term-guest{background:none;border:none;color:rgba(255,255,255,.35);font-size:12px;font-family:'SF Mono',Consolas,monospace;cursor:pointer;padding:10px 6px;transition:color .15s}
+.term-guest:hover{color:#FF6B35}
+
+/* ═══════════ MOBILE ═══════════ */
+@media (max-width: 768px){
+  /* Terminal login */
+  .term-window{width:94vw;border-radius:10px}
+  .term-body{padding:14px 14px 18px;font-size:12px;min-height:180px}
+  .term-brand{top:20px;left:20px;font-size:18px}
+  .term-foot{bottom:16px;font-size:10px}
+  .term-auth-row{flex-direction:column;align-items:stretch}
+  .term-gbtn{justify-content:center}
+
+  /* App shell: sidebar becomes bottom bar */
+  body.app-mode{flex-direction:column}
+  #sidebar{position:fixed;bottom:0;left:0;right:0;top:auto;width:100%!important;height:56px;flex-direction:row;z-index:400;border-top:1px solid rgba(255,255,255,.08);padding:0}
+  #sidebar .sb-nav{flex-direction:row;display:flex;width:100%;justify-content:space-around;align-items:center;overflow-x:auto;overflow-y:hidden;padding:0}
+  #sidebar .sb-nav a{padding:8px 10px!important;justify-content:center!important}
+  #sidebar .sb-nav .nav-label,#sidebar .sb-nav .sub-label,#sidebar .sb-nav .section-label{display:none!important}
+  #sidebar .sb-bottom,#sidebar .sb-user,#sidebar #sb-account-btn{display:none!important}
+  #sidebar:hover{width:100%!important}
+
+  /* Topbar + content */
+  #topbar{padding:0 14px}
+  #topbar .page-sub{display:none}
+  #content{padding:16px 14px 76px!important}
+
+  /* Grids collapse */
+  .grid-4{grid-template-columns:1fr 1fr;gap:10px}
+  .grid-2{grid-template-columns:1fr;gap:12px}
+
+  /* XStudio welcome: stack columns */
+  .xs-welcome{flex-direction:column;height:auto;min-height:calc(100vh - 58px);overflow-y:auto}
+  .xs-welcome-left{padding:28px 22px 10px}
+  .xs-welcome-right{width:100%;padding:10px 22px 90px}
+  .xs-title{font-size:28px!important}
+
+  /* Builder: stack form over preview */
+  .builder-wrap{flex-direction:column;height:auto;overflow:visible}
+  .builder-left{width:100%!important;max-width:none!important}
+  .builder-right{display:none}
+
+  /* XLaunch: hide detail pane, list full width */
+  .xl-split,.xl-body{flex-direction:column}
+  .xl-detail-title{font-size:18px}
+
+  /* Editor: usable but cramped — let it scroll */
+  .studio-tabs{overflow-x:auto;flex-wrap:nowrap}
+  .studio-toolbar{overflow-x:auto}
+
+  /* Cards / stats */
+  .stat-card{padding:12px}
+  .stat-value{font-size:22px!important}
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/typo-js@1.2.1/typo.js"></script>
@@ -1306,13 +1366,14 @@ html[data-theme="dark"] .xl-job-card.selected{background:rgba(255,107,53,.12)}
       <div class="term-body" id="term-body">
         <div id="term-boot"></div>
         <div id="term-prompt-row" style="display:none">
-          <span class="term-user">stephen@stryx</span><span class="term-sep">:</span><span class="term-path">~</span><span class="term-sep">$</span>
-          <span class="term-label">password:</span>
-          <span id="term-stars"></span><span class="term-cursor"></span>
-          <input type="password" id="term-input" autocomplete="off"
-            style="position:absolute;opacity:0;pointer-events:none"
-            oninput="termStars(this.value)"
-            onkeydown="if(event.key==='Enter'&&this.value.length>0)termGrant()"/>
+          <div class="tb-line"><span class="term-user">guest@stryx</span><span class="term-sep">:</span><span class="term-path">~</span><span class="term-sep">$</span> <span class="term-label">authenticate</span><span class="term-cursor"></span></div>
+          <div class="term-auth-row">
+            <button class="term-gbtn" onclick="handleSocialLogin('Google')">
+              <svg width="15" height="15" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.2l6.8-6.8C35.6 2.3 30.1 0 24 0 14.6 0 6.6 5.4 2.6 13.3l7.9 6.1C12.4 13.4 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.2-.4-4.7H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 6.9-10.1 6.9-17.3z"/><path fill="#FBBC05" d="M10.5 28.6A14.6 14.6 0 0 1 9.5 24c0-1.6.3-3.2.7-4.6l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.7l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.1 0 11.3-2 15.1-5.5l-7.5-5.8c-2 1.4-4.7 2.2-7.6 2.2-6.2 0-11.5-4-13.4-9.4l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>
+              sign in with google
+            </button>
+            <button class="term-guest" onclick="termGrant()">continue as guest →</button>
+          </div>
         </div>
         <div id="term-result"></div>
       </div>
@@ -1647,10 +1708,6 @@ function termBoot(){
   boot.innerHTML = '';
   const res = document.getElementById('term-result');
   if(res) res.innerHTML = '';
-  const stars = document.getElementById('term-stars');
-  if(stars) stars.textContent = '';
-  const inp = document.getElementById('term-input');
-  if(inp){ inp.value=''; inp.style.pointerEvents='none'; }
   const row = document.getElementById('term-prompt-row');
   if(row){ row.style.display='none'; const c=row.querySelector('.term-cursor'); if(c) c.style.display='inline-block'; }
 
@@ -1673,8 +1730,6 @@ function termBoot(){
       setTimeout(next, 380 + Math.random()*250);
     } else {
       row.style.display = 'block';
-      inp.style.pointerEvents = 'auto';
-      inp.focus();
     }
   };
   setTimeout(next, 500);
