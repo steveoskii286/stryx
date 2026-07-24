@@ -1641,9 +1641,20 @@ function termGrant(){
   }
   setTimeout(quickAccess, 900);
 }
-document.addEventListener('DOMContentLoaded', () => {
+function termBoot(){
   const boot = document.getElementById('term-boot');
   if(!boot) return;
+  // Reset all terminal state
+  boot.innerHTML = '';
+  const res = document.getElementById('term-result');
+  if(res) res.innerHTML = '';
+  const stars = document.getElementById('term-stars');
+  if(stars) stars.textContent = '';
+  const inp = document.getElementById('term-input');
+  if(inp){ inp.value=''; inp.style.pointerEvents='none'; }
+  const row = document.getElementById('term-prompt-row');
+  if(row){ row.style.display='none'; const c=row.querySelector('.term-cursor'); if(c) c.style.display='inline-block'; }
+
   const h = new Date().getHours();
   const tod = h<5?'working late':h<12?'good morning':h<18?'good afternoon':'good evening';
   const lines = [
@@ -1662,15 +1673,14 @@ document.addEventListener('DOMContentLoaded', () => {
       i++;
       setTimeout(next, 380 + Math.random()*250);
     } else {
-      const row = document.getElementById('term-prompt-row');
       row.style.display = 'block';
-      const inp = document.getElementById('term-input');
       inp.style.pointerEvents = 'auto';
       inp.focus();
     }
   };
   setTimeout(next, 500);
-});
+}
+document.addEventListener('DOMContentLoaded', termBoot);
 
 function _lfToggleMode(forceSignIn) {
   _lfSignUpMode = forceSignIn === false ? false : !_lfSignUpMode;
@@ -1747,10 +1757,10 @@ function launchApp() {
 }
 
 async function logout() {
-  await _sb.auth.signOut();
+  try { await _sb.auth.signOut(); } catch(e){}
   document.body.classList.remove('app-mode');
   S.user = null;
-  _lfToggleMode(false);
+  termBoot();
 }
 
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
